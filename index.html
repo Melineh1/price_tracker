@@ -2,11 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Advanced Price Tracker</title>
+    <title>Dynamic Price Tracker</title>
 </head>
 <body>
-    <h1>Advanced Price Tracker</h1>
-    <div id="priceList"></div>
+    <h1>Dynamic Price Tracker</h1>
+    <form id="priceForm">
+        <input type="text" id="itemName" placeholder="Enter item name" required>
+        <input type="number" id="itemPrice" placeholder="Enter item price" required>
+        <input type="date" id="priceDate" required>
+        <button type="button" onclick="trackPrice()">Track Price</button>
+    </form>
+    <div id="priceHistory"></div>
 
     <script src="app.js"></script>
 </body>
