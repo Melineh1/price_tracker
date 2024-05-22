@@ -36,12 +36,13 @@ function displayPrices() {
 
     items.forEach(item => {
         const itemElement = document.createElement('div');
-        const prices = item.prices.map(p => p.price);
-        const minPrice = Math.min(...prices);
-        const latestPrice = prices[prices.length - 1];
-        const difference = latestPrice - minPrice;
+        const prices = item.prices.map(p => `$${p.price} on ${p.date}`);
+        const priceValues = item.prices.map(p => p.price);
+        const minPrice = Math.min(...priceValues);
+        const latestPrice = priceValues[priceValues.length - 1];
+        const lowestMessage = latestPrice === minPrice ? "The price for this item is at the lowest point we've seen." : "";
 
-        itemElement.textContent = `Item: ${item.name}, Latest Price: $${latestPrice}, Lowest Price: $${minPrice}, Difference: $${difference}`;
+        itemElement.innerHTML = `<strong>${item.name}</strong>: Prices - ${prices.join(', ')}<br>${lowestMessage}`;
         listContainer.appendChild(itemElement);
     });
 }
