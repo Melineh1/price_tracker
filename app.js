@@ -1,19 +1,37 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const items = [
-        { name: "Item 1", prices: [100, 95, 98, 110, 105] },
-        { name: "Item 2", prices: [200, 205, 198, 187, 190] },
-        { name: "Item 3", prices: [150, 145, 148, 152, 150] }
-    ];
+let items = [];
 
-    const listContainer = document.getElementById('priceList');
+function trackPrice() {
+    const itemName = document.getElementById('itemName').value;
+    const itemPrice = parseFloat(document.getElementById('itemPrice').value);
+    const priceDate = document.getElementById('priceDate').value;
+
+    if (!itemName || isNaN(itemPrice) || !priceDate) {
+        alert("Please fill in all fields correctly.");
+        return;
+    }
+
+    const existingItem = items.find(item => item.name === itemName);
+    if (existingItem) {
+        existingItem.prices.push({ price: itemPrice, date: priceDate });
+    } else {
+        items.push({ name: itemName, prices: [{ price: itemPrice, date: priceDate }] });
+    }
+
+    displayPrices();
+}
+
+function displayPrices() {
+    const listContainer = document.getElementById('priceHistory');
+    listContainer.innerHTML = ''; // Clear previous entries
+
     items.forEach(item => {
         const itemElement = document.createElement('div');
-        const latestPrice = item.prices[item.prices.length - 1];
-        const lowestPrevious = Math.min(...item.prices.slice(0, -1));
+        const prices = item.prices.map(p => p.price);
+        const minPrice = Math.min(...prices);
+        const latestPrice = prices[prices.length - 1];
+        const difference = latestPrice - minPrice;
 
-        let trend = (latestPrice < lowestPrevious) ? "lower" : "higher";
-
-        itemElement.textContent = `${item.name} - Latest Price: $${latestPrice} (Previous Low: $${lowestPrevious}, Trend: ${trend})`;
+        itemElement.textContent = `Item: ${item.name}, Latest Price: $${latestPrice}, Lowest Price: $${minPrice}, Difference: $${difference}`;
         listContainer.appendChild(itemElement);
     });
-});
+}
